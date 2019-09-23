@@ -3,7 +3,10 @@
     "target": "esnext",
     "module": "esnext",
     "noImplicitAny": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]

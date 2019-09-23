@@ -1,19 +1,35 @@
 {
   "devDependencies": {
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.2",
+    "@types/redux-logger": "^3.0.7",
+    "@types/styled-components": "^4.1.19",
     "@typescript-eslint/eslint-plugin": "^2.3.0",
     "@typescript-eslint/parser": "^2.3.0",
+    "babel-cli": "6.26.0",
+    "babel-preset-react-app": "9.0.2",
     "copy-webpack-plugin": "^5.0.4",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
     "prettier": "^1.18.2",
-    "typescript": "^3.6.3",
+    "source-map-loader": "^0.2.4",
     "ts-loader": "^6.1.2",
+    "typescript": "^3.6.3",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"
   },
   "scripts": {
     "build": "webpack",
     "watch": "webpack -w"
+  },
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "styled-components": "^4.1.19"
   }
 }
