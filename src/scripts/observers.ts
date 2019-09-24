@@ -29,6 +29,8 @@ export const noteBodyObserver = new MutationObserver((records) => {
         image.addEventListener('click', handleClickAddedImage);
         imageObserver.observe(image, { attributeFilter: ['style'] });
       });
+
+      store.dispatch(deselectImageAction());
     }
 
     if (record.removedNodes.length > 0) {
