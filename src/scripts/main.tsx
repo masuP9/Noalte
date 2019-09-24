@@ -2,8 +2,8 @@ import * as React from 'react';
 import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { selectImageAction } from './actions';
 import App from './components/App';
+import { noteBodyObserver } from './observers';
 
 window.onload = (_e: Event): void => {
   const noteBody = document.getElementById('note-body');
@@ -16,20 +16,6 @@ window.onload = (_e: Event): void => {
     </Provider>,
     rootApp,
   );
-
-  const noteBodyObserver = new MutationObserver((records) => {
-    records.forEach((record) => {
-      const addImages = Array.from(record.addedNodes)
-        .map((node) => node.firstChild)
-        .filter((node) => node.nodeName === 'IMG');
-
-      addImages.forEach((image) => {
-        image.addEventListener('click', (e) => {
-          store.dispatch(selectImageAction(e.target as HTMLImageElement));
-        });
-      });
-    });
-  });
 
   noteBodyObserver.observe(noteBody, { childList: true });
 };

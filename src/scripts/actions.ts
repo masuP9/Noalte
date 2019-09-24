@@ -17,4 +17,13 @@ export function deselectImageAction(): DeselectImageAction {
   return { type: DESELECT_IMAGE };
 }
 
-export type ActionTypes = SelectImageAction | DeselectImageAction;
+export const CHANGE_SIZE_IMAGE = 'CHANGE_SIZE_IMAGE';
+export type ChangeSizeImageAction = {
+  type: typeof CHANGE_SIZE_IMAGE;
+};
+
+export function changeSizeImageAction(): ChangeSizeImageAction {
+  return { type: CHANGE_SIZE_IMAGE };
+}
+
+export type ActionTypes = SelectImageAction | DeselectImageAction | ChangeSizeImageAction;
