@@ -1,0 +1,20 @@
+name: lint source code
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.7.0
+      - name: run lint
+        run: |
+          yarn install
+          yarn lint
+        env:
+          CI: true
