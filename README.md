@@ -7,4 +7,3 @@ alt text editor for note.mu
 ## Download
 
 [Noalte \- Chrome ウェブストア](https://chrome.google.com/webstore/detail/noalte/fllgnabhoilflhpebloipnkjelkfcjbi)
-
