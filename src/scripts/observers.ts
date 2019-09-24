@@ -39,7 +39,7 @@ export const noteBodyObserver = new MutationObserver((records) => {
         .map((node) => node.firstChild)
         .filter((node) => node.nodeName === 'IMG');
 
-      removedImages.forEach((image, i, self) => {
+      removedImages.forEach((image) => {
         image.removeEventListener('click', handleClickAddedImage);
       });
 
