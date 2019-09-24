@@ -23,9 +23,10 @@
     "webpack-cli": "^3.3.9"
   },
   "scripts": {
-    "build": "webpack --mode development",
-    "prod": "webpack --mode production",
-    "watch": "webpack --mode development -w",
+    "build:dev": "webpack --mode development",
+    "build:prod": "webpack --mode production",
+    "prod": "yarn build:prod && zip -r Noalte.zip publish",
+    "dev": "yarn build:dev -w",
     "lint": "eslint \"**/*.+(ts|tsx)\"",
     "format:eslint": "yarn lint --fix",
     "format:prettier": "prettier --write '**/*.+(ts|tsx|js|md|json)'",
