@@ -1,4 +1,9 @@
 {
+  "name": "Noalte",
+  "version": "0.1.0",
+  "author": "Soichi Masuda <masuP9@gmail> (https://github.com/masuP9/)",
+  "license": "MIT",
+  "bugs": "https://github.com/masuP9/noalte/issues",
   "devDependencies": {
     "@types/node": "^12.7.5",
     "@types/react": "^16.9.17",
