@@ -22,6 +22,14 @@
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"
   },
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "styled-components": "^4.1.19"
+  },
   "scripts": {
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
@@ -31,13 +39,5 @@
     "format:eslint": "yarn lint --fix",
     "format:prettier": "prettier --write '**/*.+(ts|tsx|js|md|json)'",
     "typecheck": "tsc -p . --noEmit"
-  },
-  "dependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-redux": "^7.1.1",
-    "redux": "^4.0.4",
-    "redux-logger": "^3.0.6",
-    "styled-components": "^4.1.19"
   }
 }
