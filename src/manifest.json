@@ -10,8 +10,15 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://note.mu/notes/new", "https://note.mu/notes/*/edit"],
-      "js": ["content_script.js"]
+      "matches": [
+        "https://note.mu/notes/new",
+        "https://note.mu/notes/*/edit",
+        "https://note.com/notes/new",
+        "https://note.com/notes/*/edit"
+      ],
+      "js": [
+        "content_script.js"
+      ]
     }
   ]
 }
