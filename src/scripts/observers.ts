@@ -1,7 +1,7 @@
 import { store } from './store';
 import { selectImageAction, deselectImageAction, changeSizeImageAction } from './actions';
 
-export const imageObserver = new MutationObserver((records) => {
+const imageObserver = new MutationObserver((records) => {
   records.forEach((record) => {
     const { type, target, oldValue, attributeName } = record;
     if (
@@ -18,7 +18,7 @@ function handleClickAddedImage(e: Event) {
   store.dispatch(selectImageAction(e.target as HTMLImageElement));
 }
 
-export const noteBodyObserver = new MutationObserver((records) => {
+const noteBodyObserver = new MutationObserver((records) => {
   records.forEach((record) => {
     if (record.addedNodes.length > 0) {
       const addImages = Array.from(record.addedNodes)
@@ -44,6 +44,17 @@ export const noteBodyObserver = new MutationObserver((records) => {
       });
 
       store.dispatch(deselectImageAction());
+    }
+  });
+});
+
+export const editorObserver = new MutationObserver((recodes, observer) => {
+  recodes.forEach((_recode) => {
+    const noteBody = document.getElementById('note-body');
+
+    if (noteBody != undefined) {
+      noteBodyObserver.observe(noteBody, { childList: true });
+      observer.disconnect();
     }
   });
 });
