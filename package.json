@@ -40,9 +40,11 @@
     "build:prod": "webpack --mode production",
     "prod": "yarn build:prod && zip -r Noalte.zip publish",
     "dev": "yarn build:dev -w",
-    "lint": "eslint \"**/*.+(ts|tsx)\"",
+    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "lint:eslint": "eslint \"src/**/*.+(ts|tsx)\"",
+    "lint:prettier": "prettier --check 'src/**/*.+(ts|tsx|js)'",
     "format:eslint": "yarn lint --fix",
-    "format:prettier": "prettier --write '**/*.+(ts|tsx|js|md|json)'",
+    "format:prettier": "prettier --write 'src/**/*.+(ts|tsx|js)'",
     "typecheck": "tsc -p . --noEmit"
   }
 }
