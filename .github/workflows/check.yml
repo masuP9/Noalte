@@ -15,7 +15,8 @@ jobs:
       - name: run lint
         run: |
           yarn install
-          yarn lint
+          yarn lint:eslint
+          yarn lint:prettier
           yarn typecheck
         env:
           CI: true
