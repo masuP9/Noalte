@@ -1,5 +1,5 @@
 import { store } from './store';
-import { selectImageAction, deselectImageAction, changeSizeImageAction } from './actions';
+import { selectImageAction, deselectImageAction, changeSizeImageAction, observeEditorAction } from './actions';
 
 const imageObserver = new MutationObserver((records) => {
   records.forEach((record) => {
@@ -51,7 +51,9 @@ const noteBodyObserver = new MutationObserver((records) => {
 export const editorObserver = new MutationObserver((recodes, observer) => {
   recodes.forEach((_recode) => {
     const noteBody = document.getElementById('note-body');
-    if (noteBody != undefined) {
+    const state = store.getState();
+
+    if (noteBody != undefined && state.observer.observingEditor !== true) {
       const existingImages = noteBody.querySelectorAll('img');
       if (existingImages.length > 0) {
         existingImages.forEach((img) => {
@@ -60,7 +62,10 @@ export const editorObserver = new MutationObserver((recodes, observer) => {
       }
 
       noteBodyObserver.observe(noteBody, { childList: true });
-      observer.disconnect();
+      store.dispatch(observeEditorAction(true));
+    } else if (noteBody == null && state.observer.observingEditor === true) {
+      noteBodyObserver.disconnect();
+      store.dispatch(observeEditorAction(false));
     }
   });
 });

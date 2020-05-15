@@ -1,3 +1,13 @@
+export const OBSERVE_EDITOR = 'OBSERVE_EDITOR';
+export type ObserveEditorAction = {
+  type: typeof OBSERVE_EDITOR;
+  payload: Boolean;
+};
+
+export function observeEditorAction(isObserve: Boolean): ObserveEditorAction {
+  return { type: OBSERVE_EDITOR, payload: isObserve };
+}
+
 export const SELECT_IMAGE = 'SELECT_IMAGE';
 export type SelectImageAction = {
   type: typeof SELECT_IMAGE;
@@ -26,4 +36,4 @@ export function changeSizeImageAction(): ChangeSizeImageAction {
   return { type: CHANGE_SIZE_IMAGE };
 }
 
-export type ActionTypes = SelectImageAction | DeselectImageAction | ChangeSizeImageAction;
+export type ActionTypes = SelectImageAction | DeselectImageAction | ChangeSizeImageAction | ObserveEditorAction;

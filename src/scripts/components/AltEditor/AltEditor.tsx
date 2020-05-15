@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Position } from '../../reducer';
+import { Position } from '../../reducer/imageReducer';
 
 const Form = styled.form<{ position: Position }>`
   position: absolute !important;
