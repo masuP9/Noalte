@@ -1,5 +1,4 @@
-import { combineReducers } from 'redux';
-import { DESELECT_IMAGE, SELECT_IMAGE, ActionTypes, CHANGE_SIZE_IMAGE } from './actions';
+import { DESELECT_IMAGE, SELECT_IMAGE, ActionTypes, CHANGE_SIZE_IMAGE } from '../actions';
 
 export type Position = {
   left: number;
@@ -51,8 +50,3 @@ export function imageReducer(state = initialState, action: Action) {
       return state;
   }
 }
-
-export const rootReducer = combineReducers({
-  image: imageReducer,
-});
-export type AppState = ReturnType<typeof rootReducer>;

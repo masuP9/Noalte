@@ -1,6 +1,6 @@
 import React from 'react';
 import { AltEditor } from '../AltEditor';
-import { Position } from '../../reducer';
+import { Position } from '../../reducer/imageReducer';
 import { deselectImageAction } from '../../actions';
 import { store } from '../../store';
 
