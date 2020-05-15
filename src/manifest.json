@@ -11,10 +11,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://note.mu/notes/new",
-        "https://note.mu/notes/*/edit",
-        "https://note.com/notes/new",
-        "https://note.com/notes/*/edit"
+        "https://note.mu/*",
+        "https://note.com/*"
       ],
       "js": [
         "content_script.js"
