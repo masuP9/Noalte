@@ -4,6 +4,7 @@ import { Position } from '../../reducer';
 
 const Form = styled.form<{ position: Position }>`
   position: absolute !important;
+  z-index: 1 !important;
   top: ${({ position }) => `${window.pageYOffset + position.top}px`} !important;
   left: ${({ position }) => `${position.left}px`} !important;
   padding: 1em !important;
@@ -12,7 +13,7 @@ const Form = styled.form<{ position: Position }>`
 
   & :focus {
     outline: none !important;
-    box-shadow: 0 0 0 3px rgba(59, 196, 157, 0.75) !important;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.75) !important;
   }
 `;
 
@@ -21,17 +22,31 @@ const Label = styled.label`
   overflow: visible !important;
 
   & > span {
+    display: block;
     margin-bottom: 4px !important;
   }
 `;
 
 const Input = styled.input`
+  margin-bottom: 8px !important;
+  padding: 4px 8px !important;
   border: 1px solid #757575 !important;
+  border-radius: 4px !important;
+  background-color: white !important;
 `;
 
 const SubmitModule = styled.div`
   display: flex !important;
   align-items: center !important;
+
+  & > button {
+    all: initial;
+    background-color: #157660;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+  }
 `;
 
 const Message = styled.p`
@@ -50,6 +65,7 @@ const CloseButton = styled.button`
   height: 32px;
   border-radius: 50% !important;
   border: 1px solid #555 !important;
+  background-color: white !important;
   font-weight: bold !important;
 `;
 
@@ -88,9 +104,7 @@ export class AltEditor extends React.PureComponent<Props, State> {
           <Input type="text" value={this.state.value} onChange={this.handleChangeInputValue} />
         </Label>
         <SubmitModule>
-          <button className="c-button" type="submit">
-            保存
-          </button>
+          <button type="submit">保存</button>
           <Message role="alert">{altUpdateSuccess ? '✅ 保存しました' : null}</Message>
         </SubmitModule>
         <CloseButton type="button" aria-label="閉じる" onClick={this.handleClickCloseButton}>
