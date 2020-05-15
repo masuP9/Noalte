@@ -51,8 +51,14 @@ const noteBodyObserver = new MutationObserver((records) => {
 export const editorObserver = new MutationObserver((recodes, observer) => {
   recodes.forEach((_recode) => {
     const noteBody = document.getElementById('note-body');
-
     if (noteBody != undefined) {
+      const existingImages = noteBody.querySelectorAll('img');
+      if (existingImages.length > 0) {
+        existingImages.forEach((img) => {
+          img.addEventListener('click', handleClickAddedImage);
+        });
+      }
+
       noteBodyObserver.observe(noteBody, { childList: true });
       observer.disconnect();
     }
