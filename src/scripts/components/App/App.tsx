@@ -6,6 +6,12 @@ export type Position = {
   top: number;
 };
 
+const filterFirstChildImagesFromNodes = (nodeList: NodeList): HTMLImageElement[] => {
+  const childNodes = Array.from(nodeList).flatMap((node) => (node.firstChild != null ? [node.firstChild] : []));
+  const images = childNodes.filter((node): node is HTMLImageElement => node instanceof HTMLImageElement);
+  return images;
+};
+
 export const App: React.VFC = () => {
   const [selectedImage, setSelectedImage] = React.useState<HTMLImageElement | null>(null);
   const [observingRoot, setObservingRoot] = React.useState<boolean>(false);
@@ -27,29 +33,27 @@ export const App: React.VFC = () => {
     () =>
       new MutationObserver((records) => {
         records.forEach((record) => {
-          if (record.addedNodes.length > 0) {
-            const addImages = Array.from(record.addedNodes)
-              .map((node) => node.firstChild)
-              .filter((node) => node instanceof HTMLImageElement);
+          const { addedNodes, removedNodes } = record;
+          if (addedNodes.length > 0) {
+            const addImages = filterFirstChildImagesFromNodes(addedNodes);
 
-            addImages.forEach((image) => {
-              image.addEventListener('click', handleClickAddedImage);
-            });
-
-            setSelectedImage(null);
+            if (addImages.length > 0) {
+              addImages.forEach((image) => {
+                image.addEventListener('click', handleClickAddedImage);
+              });
+              setSelectedImage(null);
+            }
           }
 
-          if (record.removedNodes.length > 0) {
-            // 削除された Image へのイベントを削除
-            const removedImages = Array.from(record.removedNodes)
-              .map((node) => node.firstChild)
-              .filter((node) => node.nodeName === 'IMG');
+          if (removedNodes.length > 0) {
+            const removedImages = filterFirstChildImagesFromNodes(removedNodes);
 
-            removedImages.forEach((image) => {
-              image.removeEventListener('click', handleClickAddedImage);
-            });
-
-            setSelectedImage(null);
+            if (removedImages.length > 0) {
+              removedImages.forEach((image) => {
+                image.removeEventListener('click', handleClickAddedImage);
+              });
+              setSelectedImage(null);
+            }
           }
         });
       }),
