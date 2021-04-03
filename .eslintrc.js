@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ['plugin:prettier/recommended', 'plugin:@typescript-eslint/eslint-recommended', 'plugin:react/recommended'],
+  extends: [
+    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   env: { node: true, browser: true, es6: true },
   plugins: ['@typescript-eslint', 'react'],
   parser: '@typescript-eslint/parser',
@@ -17,5 +22,6 @@ module.exports = {
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unused-vars': [2, { args: 'none', ignoreRestSiblings: true }],
+    'react/prop-types': 'off',
   },
 };
