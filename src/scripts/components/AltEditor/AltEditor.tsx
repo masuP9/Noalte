@@ -1,8 +1,94 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Position } from '../../reducer/imageReducer';
 
-const Form = styled.form<{ position: Position }>`
+export type Position = {
+  left: number;
+  top: number;
+};
+
+type Props = React.FormHTMLAttributes<HTMLFormElement> & {
+  selectedImage: HTMLImageElement;
+  onClose: () => void;
+};
+
+const getPositionFromImage = (image: HTMLImageElement): Position => {
+  const rect = image.getBoundingClientRect();
+
+  return {
+    left: rect.right + 12,
+    top: rect.top,
+  };
+};
+
+export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest }) => {
+  const [value, setValue] = React.useState('');
+  const [position, setPosition] = React.useState<Position>({ left: 0, top: 0 });
+  const [altUpdateSuccess, setAltUpdateSuccess] = React.useState(false);
+  const imageObserver = React.useMemo(
+    () =>
+      new MutationObserver((records) => {
+        records.forEach((record) => {
+          const { type, target, oldValue, attributeName } = record;
+          if (
+            type === 'attributes' &&
+            target instanceof HTMLImageElement &&
+            oldValue !== target.getAttribute(attributeName)
+          ) {
+            setPosition(getPositionFromImage(target));
+          }
+        });
+      }),
+    [],
+  );
+
+  React.useEffect(() => {
+    setValue(selectedImage.alt);
+    setPosition(getPositionFromImage(selectedImage));
+    imageObserver.observe(selectedImage, { attributeFilter: ['style'] });
+  }, [selectedImage, imageObserver]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    selectedImage.setAttribute('alt', value);
+    setAltUpdateSuccess(true);
+  };
+
+  const handleChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    setAltUpdateSuccess(false);
+  };
+
+  const handleClickCloseButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClose();
+  };
+
+  return (
+    <Form position={position} onSubmit={handleSubmit} {...rest}>
+      <Label>
+        <span>
+          id:<code>{selectedImage.id}</code>の代替テキスト
+        </span>
+        <Input type="text" value={value} onChange={handleChangeInputValue} />
+      </Label>
+      <SubmitModule>
+        <button type="submit">保存</button>
+        <Message role="alert">{altUpdateSuccess ? '✅ 保存しました' : null}</Message>
+      </SubmitModule>
+      <CloseButton type="button" aria-label="閉じる" onClick={handleClickCloseButton}>
+        <svg viewBox="0 0 12 12" width="12" height="12">
+          <line x1="2" y1="10" x2="10" y2="2" stroke="#222" strokeWidth="2" />
+          <line x1="2" y1="2" x2="10" y2="10" stroke="#222" strokeWidth="2" />
+        </svg>
+      </CloseButton>
+    </Form>
+  );
+};
+
+type FormProps = {
+  readonly position: Position;
+};
+
+const Form = styled.form<FormProps>`
   position: absolute !important;
   z-index: 1 !important;
   top: ${({ position }) => `${window.pageYOffset + position.top}px`} !important;
@@ -68,87 +154,3 @@ const CloseButton = styled.button`
   background-color: white !important;
   font-weight: bold !important;
 `;
-
-type Props = React.FormHTMLAttributes<HTMLFormElement> & {
-  selectedImage: HTMLImageElement;
-  position: Position;
-  onSave?: Function;
-  onClose?: Function;
-};
-
-type State = {
-  value: string;
-  altUpdateSuccess: boolean;
-};
-
-export class AltEditor extends React.PureComponent<Props, State> {
-  public state: State = {
-    value: '',
-    altUpdateSuccess: false,
-  };
-
-  public render(): React.ReactNode {
-    const { selectedImage, position, onSave, onClose, ...rest } = this.props;
-    const { altUpdateSuccess } = this.state;
-
-    if (selectedImage == null) {
-      return null;
-    }
-
-    return (
-      <Form position={position} onSubmit={this.handleSubmit} {...rest}>
-        <Label>
-          <span>
-            id:<code>{selectedImage.id}</code>の代替テキスト
-          </span>
-          <Input type="text" value={this.state.value} onChange={this.handleChangeInputValue} />
-        </Label>
-        <SubmitModule>
-          <button type="submit">保存</button>
-          <Message role="alert">{altUpdateSuccess ? '✅ 保存しました' : null}</Message>
-        </SubmitModule>
-        <CloseButton type="button" aria-label="閉じる" onClick={this.handleClickCloseButton}>
-          <svg viewBox="0 0 12 12" width="12" height="12">
-            <line x1="2" y1="10" x2="10" y2="2" stroke="#222" strokeWidth="2" />
-            <line x1="2" y1="2" x2="10" y2="10" stroke="#222" strokeWidth="2" />
-          </svg>
-        </CloseButton>
-      </Form>
-    );
-  }
-
-  public componentDidUpdate(prevProps: Props, prevState: State): void {
-    const { selectedImage } = this.props;
-    if (prevProps.selectedImage !== selectedImage && selectedImage != null) {
-      this.setState({
-        value: selectedImage.alt,
-        altUpdateSuccess: false,
-      });
-    }
-  }
-
-  private handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (this.props.onSave != null) {
-      this.props.onSave(this.state.value);
-    }
-    if (this.props.selectedImage.alt === this.state.value) {
-      this.setState({
-        altUpdateSuccess: true,
-      });
-    }
-  };
-
-  private handleChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      value: e.target.value,
-      altUpdateSuccess: false,
-    });
-  };
-
-  private handleClickCloseButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (this.props.onClose != null) {
-      this.props.onClose();
-    }
-  };
-}
