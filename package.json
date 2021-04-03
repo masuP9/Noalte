@@ -5,7 +5,7 @@
   "license": "MIT",
   "bugs": "https://github.com/masuP9/noalte/issues",
   "devDependencies": {
-    "@types/node": "^12.7.5",
+    "@types/node": "^14.14.37",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-redux": "^7.1.16",
