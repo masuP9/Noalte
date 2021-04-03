@@ -25,6 +25,13 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
-    plugins: [new CopyPlugin(['src/manifest.json', 'src/icons'])],
+    plugins: [
+      new CopyPlugin({
+        patterns: [
+          { from: 'src/manifest.json' },
+          { from: 'src/icons' },
+        ],
+      }),
+    ],
   };
 };
