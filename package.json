@@ -6,10 +6,10 @@
   "bugs": "https://github.com/masuP9/noalte/issues",
   "devDependencies": {
     "@types/node": "^12.7.5",
-    "@types/react": "^16.9.35",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-redux": "^7.1.8",
-    "@types/redux-logger": "^3.0.7",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "@types/react-redux": "^7.1.16",
+    "@types/redux-logger": "^3.0.8",
     "@types/styled-components": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
@@ -28,9 +28,9 @@
     "webpack-cli": "^4.6.0"
   },
   "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.3",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "styled-components": "^5.1.0"
@@ -48,7 +48,7 @@
     "typecheck": "tsc -p . --noEmit"
   },
   "resolutions": {
-    "@types/react": "16.9.35",
-    "@types/react-dom": "16.9.8"
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3"
   }
 }
