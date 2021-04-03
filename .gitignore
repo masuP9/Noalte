@@ -3,3 +3,4 @@ dist/
 publish/
 Noalte.zip
 .DS_Store
+.vscode
