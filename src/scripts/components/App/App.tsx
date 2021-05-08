@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { AltEditor } from '../AltEditor';
 
-export type Position = {
-  left: number;
-  top: number;
-};
-
 const filterFirstChildImagesFromNodes = (nodeList: NodeList): HTMLImageElement[] => {
   const childNodes = Array.from(nodeList).flatMap((node) => (node.firstChild != null ? [node.firstChild] : []));
   const images = childNodes.filter((node): node is HTMLImageElement => node instanceof HTMLImageElement);
