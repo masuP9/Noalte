@@ -45,6 +45,10 @@ export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest })
     setValue(selectedImage.alt);
     setPosition(getPositionFromImage(selectedImage));
     imageObserver.observe(selectedImage, { attributeFilter: ['style'] });
+
+    return () => {
+      imageObserver.disconnect();
+    };
   }, [selectedImage, imageObserver]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
