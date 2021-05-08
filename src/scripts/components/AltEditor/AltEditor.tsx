@@ -28,10 +28,10 @@ export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest })
     () =>
       new MutationObserver((records) => {
         records.forEach((record) => {
-          const { type, target, oldValue, attributeName } = record;
+          const { target, oldValue, attributeName } = record;
           if (
-            type === 'attributes' &&
             target instanceof HTMLImageElement &&
+            attributeName !== null &&
             oldValue !== target.getAttribute(attributeName)
           ) {
             setPosition(getPositionFromImage(target));
