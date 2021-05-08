@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 
 export type Position = {
@@ -23,11 +23,11 @@ const getPositionFromImage = (image: HTMLImageElement): Position => {
 };
 
 export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest }) => {
-  const [value, setValue] = React.useState('');
-  const [position, setPosition] = React.useState<Position>({ left: 0, top: 0 });
-  const [altUpdateSuccess, setAltUpdateSuccess] = React.useState(false);
+  const [value, setValue] = useState('');
+  const [position, setPosition] = useState<Position>({ left: 0, top: 0 });
+  const [altUpdateSuccess, setAltUpdateSuccess] = useState(false);
 
-  const imageSizeObserver = React.useMemo(
+  const imageSizeObserver = useMemo(
     () =>
       new ResizeObserver((records) => {
         records.forEach((entry) => {
@@ -38,7 +38,7 @@ export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest })
     [],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setValue(selectedImage.alt);
     setPosition(getPositionFromImage(selectedImage));
     imageSizeObserver.observe(selectedImage);
