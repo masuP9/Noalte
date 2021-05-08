@@ -26,18 +26,13 @@ export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest })
   const [value, setValue] = React.useState('');
   const [position, setPosition] = React.useState<Position>({ left: 0, top: 0 });
   const [altUpdateSuccess, setAltUpdateSuccess] = React.useState(false);
-  const imageObserver = React.useMemo(
+
+  const imageSizeObserver = React.useMemo(
     () =>
-      new MutationObserver((records) => {
-        records.forEach((record) => {
-          const { target, oldValue, attributeName } = record;
-          if (
-            target instanceof HTMLImageElement &&
-            attributeName !== null &&
-            oldValue !== target.getAttribute(attributeName)
-          ) {
-            setPosition(getPositionFromImage(target));
-          }
+      new ResizeObserver((records) => {
+        records.forEach((entry) => {
+          const { contentRect } = entry;
+          setPosition(contentRect);
         });
       }),
     [],
@@ -46,12 +41,12 @@ export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest })
   React.useEffect(() => {
     setValue(selectedImage.alt);
     setPosition(getPositionFromImage(selectedImage));
-    imageObserver.observe(selectedImage, { attributeFilter: ['style'] });
+    imageSizeObserver.observe(selectedImage);
 
     return () => {
-      imageObserver.disconnect();
+      imageSizeObserver.disconnect();
     };
-  }, [selectedImage, imageObserver]);
+  }, [selectedImage, imageSizeObserver]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
