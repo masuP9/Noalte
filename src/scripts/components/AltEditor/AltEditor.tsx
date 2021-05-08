@@ -11,12 +11,14 @@ type Props = React.FormHTMLAttributes<HTMLFormElement> & {
   onClose: () => void;
 };
 
+const MARGIN_BETWEEN_FORM_AND_IMAGE = 12;
+
 const getPositionFromImage = (image: HTMLImageElement): Position => {
   const rect = image.getBoundingClientRect();
 
   return {
-    left: rect.right + 12,
-    top: rect.top,
+    left: rect.right + MARGIN_BETWEEN_FORM_AND_IMAGE,
+    top: window.pageYOffset + rect.top,
   };
 };
 
@@ -95,7 +97,7 @@ type FormProps = {
 const Form = styled.form<FormProps>`
   position: absolute !important;
   z-index: 1 !important;
-  top: ${({ position }) => `${window.pageYOffset + position.top}px`} !important;
+  top: ${({ position }) => `${position.top}px`} !important;
   left: ${({ position }) => `${position.left}px`} !important;
   padding: 1em !important;
   border-radius: 4px !important;
