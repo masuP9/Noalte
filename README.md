@@ -2,7 +2,7 @@
 
 alt text editor for note
 
-![Noalteの動作イメージ。挿入画像の隣に代替テキスト入力欄が表示される](https://lh3.googleusercontent.com/hcU-IJK7rn53enFJCBNb0BAXla0Mcaw43KG2r6jrk3WDpyxrZ4VETUKIw9dez-PvjF4w9AQPYw=w640-h400-e365)
+![Noalteの動作イメージ。挿入画像の隣に代替テキスト入力欄が表示される](https://lh3.googleusercontent.com/DHHPS8Esex_EpDIig2NGt9Odosx2czPcAYOnMT_LJsmGdTx1UYhuepm9AdaTbRmqmrVbCyndtAVemzBDV9QrisHeLcw=w640-h400-e365-rj-sc0x00ffffff)
 
 ## Download
 
