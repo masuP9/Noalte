@@ -46,6 +46,7 @@
   },
   "resolutions": {
     "@types/react": "17.0.3",
-    "@types/react-dom": "17.0.3"
+    "@types/react-dom": "17.0.3",
+    "kind-of": "^6.0.3"
   }
 }
