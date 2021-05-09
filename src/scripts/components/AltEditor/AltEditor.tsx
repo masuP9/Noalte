@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 
 export type Position = {
@@ -11,41 +11,60 @@ type Props = React.FormHTMLAttributes<HTMLFormElement> & {
   onClose: () => void;
 };
 
+const MARGIN_BETWEEN_FORM_AND_IMAGE = 12;
+
 const getPositionFromImage = (image: HTMLImageElement): Position => {
   const rect = image.getBoundingClientRect();
 
   return {
-    left: rect.right + 12,
-    top: rect.top,
+    left: rect.right + MARGIN_BETWEEN_FORM_AND_IMAGE,
+    top: window.pageYOffset + rect.top,
   };
 };
 
 export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest }) => {
-  const [value, setValue] = React.useState('');
-  const [position, setPosition] = React.useState<Position>({ left: 0, top: 0 });
-  const [altUpdateSuccess, setAltUpdateSuccess] = React.useState(false);
-  const imageObserver = React.useMemo(
+  const [value, setValue] = useState('');
+  const [position, setPosition] = useState<Position>({ left: 0, top: 0 });
+  const [altUpdateSuccess, setAltUpdateSuccess] = useState(false);
+
+  const imageSizeObserver = useMemo(
     () =>
-      new MutationObserver((records) => {
-        records.forEach((record) => {
-          const { target, oldValue, attributeName } = record;
-          if (
-            target instanceof HTMLImageElement &&
-            attributeName !== null &&
-            oldValue !== target.getAttribute(attributeName)
-          ) {
-            setPosition(getPositionFromImage(target));
-          }
+      new ResizeObserver((records) => {
+        records.forEach((entry) => {
+          const { contentRect } = entry;
+          setPosition(contentRect);
         });
       }),
     [],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setValue(selectedImage.alt);
     setPosition(getPositionFromImage(selectedImage));
-    imageObserver.observe(selectedImage, { attributeFilter: ['style'] });
-  }, [selectedImage, imageObserver]);
+    imageSizeObserver.observe(selectedImage);
+
+    return () => {
+      imageSizeObserver.disconnect();
+    };
+  }, [selectedImage, imageSizeObserver]);
+
+  const bodySizeObserver = useMemo(
+    () =>
+      new ResizeObserver((entries) =>
+        entries.forEach((entry) => {
+          setPosition(getPositionFromImage(selectedImage));
+        }),
+      ),
+    [selectedImage],
+  );
+
+  useEffect(() => {
+    bodySizeObserver.observe(document.body);
+
+    return () => {
+      bodySizeObserver.disconnect();
+    };
+  }, [bodySizeObserver]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,7 +110,7 @@ type FormProps = {
 const Form = styled.form<FormProps>`
   position: absolute !important;
   z-index: 1 !important;
-  top: ${({ position }) => `${window.pageYOffset + position.top}px`} !important;
+  top: ${({ position }) => `${position.top}px`} !important;
   left: ${({ position }) => `${position.left}px`} !important;
   padding: 1em !important;
   border-radius: 4px !important;

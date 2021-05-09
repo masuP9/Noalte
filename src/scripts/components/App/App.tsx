@@ -1,10 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { AltEditor } from '../AltEditor';
-
-export type Position = {
-  left: number;
-  top: number;
-};
 
 const filterFirstChildImagesFromNodes = (nodeList: NodeList): HTMLImageElement[] => {
   const childNodes = Array.from(nodeList).flatMap((node) => (node.firstChild != null ? [node.firstChild] : []));
@@ -13,8 +8,8 @@ const filterFirstChildImagesFromNodes = (nodeList: NodeList): HTMLImageElement[]
 };
 
 export const App: React.VFC = () => {
-  const [selectedImage, setSelectedImage] = React.useState<HTMLImageElement | null>(null);
-  const [observingRoot, setObservingRoot] = React.useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<HTMLImageElement | null>(null);
+  const [observingRoot, setObservingRoot] = useState<boolean>(false);
 
   const handleClickAddedImage = (e: Event) => {
     if (e.target instanceof HTMLImageElement) {
@@ -22,14 +17,14 @@ export const App: React.VFC = () => {
     }
   };
 
-  const editorObserverOption = React.useMemo<MutationObserverInit>(
+  const editorObserverOption = useMemo<MutationObserverInit>(
     () => ({
       childList: true,
     }),
     [],
   );
 
-  const editorObserver = React.useMemo(
+  const editorObserver = useMemo(
     () =>
       new MutationObserver((records) => {
         records.forEach((record) => {
@@ -60,14 +55,14 @@ export const App: React.VFC = () => {
     [],
   );
 
-  const rootObserverOption = React.useMemo<MutationObserverInit>(
+  const rootObserverOption = useMemo<MutationObserverInit>(
     () => ({
       childList: true,
     }),
     [],
   );
 
-  const rootObserver = React.useMemo(
+  const rootObserver = useMemo(
     () =>
       new MutationObserver((recodes) => {
         recodes.forEach((_recode) => {
@@ -93,7 +88,7 @@ export const App: React.VFC = () => {
     [editorObserver, editorObserverOption, observingRoot],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const editorElement = document.getElementById('note-body');
 
     if (!observingRoot) {
