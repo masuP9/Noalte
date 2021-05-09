@@ -31,8 +31,10 @@ export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest })
     () =>
       new ResizeObserver((records) => {
         records.forEach((entry) => {
-          const { contentRect } = entry;
-          setPosition(contentRect);
+          const { target } = entry;
+          if (target instanceof HTMLImageElement) {
+            setPosition(getPositionFromImage(target));
+          }
         });
       }),
     [],
