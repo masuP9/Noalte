@@ -48,6 +48,24 @@ export const AltEditor: React.VFC<Props> = ({ selectedImage, onClose, ...rest })
     };
   }, [selectedImage, imageSizeObserver]);
 
+  const bodySizeObserver = useMemo(
+    () =>
+      new ResizeObserver((entries) =>
+        entries.forEach((entry) => {
+          setPosition(getPositionFromImage(selectedImage));
+        }),
+      ),
+    [selectedImage],
+  );
+
+  useEffect(() => {
+    bodySizeObserver.observe(document.body);
+
+    return () => {
+      bodySizeObserver.disconnect();
+    };
+  }, [bodySizeObserver]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     selectedImage.setAttribute('alt', value);
